@@ -1,0 +1,11 @@
+<resources>
+    <string name="appName">Scuderia Ferrari</string>
+    <string name="driverDetailsTitle">Driver Details</string>
+    <string name="driverName"> Name :</string>
+    <string name="nationality">Nationality :</string>
+    <string name="dateOfBirth">DateOfBirth :</string>
+    <string name="racesWon">No of Races Won :</string>
+    <string name="driverRow">Driver</string>
+    <string name="racesWonRow">Races Won</string>
+    <string name="Visitbiography">Visit biography</string>
+</resources>

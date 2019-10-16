@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<dimen name="toolBarHeight">45dp</dimen>
+<dimen name="marginSmall">10dp</dimen>
+<dimen name="margin">20dp</dimen>
+<dimen name="marginStart">20dp</dimen>
+<dimen name="marginTop">20dp</dimen>
+<dimen name="marginEnd">20dp</dimen>
+<dimen name="titleSize">20sp</dimen>
+<dimen name="miniPadding">5dp</dimen>
+<dimen name="smallPadding">10dp</dimen>
+<dimen name="padding">30dp</dimen>
+<dimen name="labelSize">20sp</dimen>
+<dimen name="smallTextSize">18sp</dimen>
+<dimen name="smallestTextSize">12sp</dimen>
+</resources>
