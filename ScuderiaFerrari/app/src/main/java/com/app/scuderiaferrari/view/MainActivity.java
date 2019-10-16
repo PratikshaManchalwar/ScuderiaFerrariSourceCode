@@ -1,12 +1,22 @@
 package com.app.scuderiaferrari.view;
 
+import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.app.scuderiaferrari.R;
 import com.app.scuderiaferrari.adapter.Infoadapter;
 import com.app.scuderiaferrari.model.Driver;
+import com.app.scuderiaferrari.util.Utility;
 import com.app.scuderiaferrari.viewModel.InfoListViewModel;
 
 import java.util.ArrayList;
@@ -24,11 +34,18 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainActivity extends AppCompatActivity {
     private InfoListViewModel listViewModel;
     private Infoadapter infoadapter;
+
     private int offset = 0;
     private int total;
     private boolean isLastPage;
     private static final int PAGE_LIMIT = 30;
+
     private ProgressBar progressBar;
+
+    private BroadcastReceiver connectivityChangeReceiver = null;
+    private boolean isInternetDialogVisible = false;
+    private Dialog internetPermissionDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerview.setHasFixedSize(true);
         infoadapter = new Infoadapter(this);
         recyclerview.setAdapter(infoadapter);
+
+        listViewModel = ViewModelProviders.of(this).get(InfoListViewModel.class);
 
         recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -67,11 +86,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        listViewModel = ViewModelProviders.of(this).get(InfoListViewModel.class);
-        getDriverData();
+
     }
 
+    /*Check MOBILE and WIFI connection is enable or disable*/
+    public class connectivityChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Utility.getConnectivityStatusString(MainActivity.this)) {
+                getDriverData();
+                if (isInternetDialogVisible) {
+                    internetPermissionDialog.dismiss();
+                }
 
+            } else {
+                showNoInternetMessage();
+            }
+
+        }
+    }
     /*get List of drivers */
     private void getDriverData() {
         listViewModel.getDriverList(offset, PAGE_LIMIT).observe(this, driverList -> {
@@ -91,6 +124,48 @@ public class MainActivity extends AppCompatActivity {
               infoadapter.notifyDataSetChanged();
 
         });
+    }
+    /*check internet connection is available or not*/
+    private void showNoInternetMessage() {
+        // dialog for internet permission
+        internetPermissionDialog = new Dialog(MainActivity.this);
+        internetPermissionDialog.setContentView(R.layout.internetcheck_dialog);
+        internetPermissionDialog.setCancelable(false);
+        TextView tvCancel = internetPermissionDialog.findViewById(R.id.cancel);
+        TextView tvRetry = internetPermissionDialog.findViewById(R.id.retry);
+
+        tvCancel.setOnClickListener(view ->
+        {
+            Log.v("cancel", "called");
+            if (isInternetDialogVisible) {
+                internetPermissionDialog.dismiss();
+            }
+        });
+        tvRetry.setOnClickListener(view ->
+        {
+            if (isInternetDialogVisible) {
+                internetPermissionDialog.dismiss();
+            }
+            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+        });
+
+        internetPermissionDialog.show();
+        isInternetDialogVisible = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /*registered the receiver */
+        connectivityChangeReceiver = new connectivityChangeReceiver();
+        registerReceiver(connectivityChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        /*unregistered the receiver */
+        unregisterReceiver(connectivityChangeReceiver);
     }
     @Override
     public void onBackPressed() {

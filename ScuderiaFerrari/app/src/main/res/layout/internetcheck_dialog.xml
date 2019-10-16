@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:padding="@dimen/smallPadding">
+
+    <TextView
+        android:id="@+id/tvHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/internetUnavailable"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/smallTextSize"
+        android:layout_marginStart="@dimen/marginStart"
+        android:layout_marginTop="@dimen/marginTop"/>
+
+    <TextView
+        android:id="@+id/tvCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvHeading"
+        android:layout_marginTop="@dimen/marginTop"
+        android:singleLine="false"
+        android:text="@string/checkInternet"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/smallTextSize"
+        android:layout_marginStart="@dimen/marginStart"/>
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCheck"
+        android:layout_margin="@dimen/margin"
+        android:layout_marginEnd="10dp"
+        android:text="@string/cancel"
+        android:textColor="@color/colorRed"
+        android:textSize="@dimen/smallTextSize"
+        android:layout_toStartOf="@+id/retry"/>
+
+    <TextView
+        android:id="@+id/retry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCheck"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/margin"
+        android:text="@string/retry"
+        android:textColor="@color/colorGreen"
+        android:textSize="@dimen/smallTextSize" />
+</RelativeLayout>

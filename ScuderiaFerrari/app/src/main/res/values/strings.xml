@@ -1,6 +1,8 @@
 <resources>
     <string name="appName">Scuderia Ferrari</string>
     <string name="driverDetailsTitle">Driver Details</string>
+
+    <!--Driver Detail strings-->
     <string name="driverName"> Name :</string>
     <string name="nationality">Nationality :</string>
     <string name="dateOfBirth">DateOfBirth :</string>
@@ -8,4 +10,11 @@
     <string name="driverRow">Driver</string>
     <string name="racesWonRow">Races Won</string>
     <string name="Visitbiography">Visit biography</string>
+
+    <!--Internet Dialog Strings-->
+    <string name="cancel">Cancel</string>
+    <string name="retry">Retry</string>
+    <string name="internetUnavailable">Internet is unavailable</string>
+    <string name="checkInternet">No Internet Connection \nWould you like to try it again?</string>
+
 </resources>
