@@ -8,10 +8,6 @@ public class RootResponse {
         return mrData;
     }
 
-    public void setMrData(MRData mrData) {
-        this.mrData = mrData;
-    }
-
     @SerializedName("MRData")
     private MRData mrData;
 

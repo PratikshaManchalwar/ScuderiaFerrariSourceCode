@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.app.scuderiaferrari.R;
 import com.app.scuderiaferrari.adapter.Infoadapter;
 import com.app.scuderiaferrari.model.Driver;
-import com.app.scuderiaferrari.util.Utility;
+import com.app.scuderiaferrari.util.InternetCheck;
 import com.app.scuderiaferrari.viewModel.InfoListViewModel;
 
 import java.util.ArrayList;
@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     private int offset = 0;
     private int total;
-    private boolean isLastPage;
     private static final int PAGE_LIMIT = 30;
+    private boolean loadMore = true;
 
     private ProgressBar progressBar;
 
@@ -74,12 +74,14 @@ public class MainActivity extends AppCompatActivity {
                     if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                             && firstVisibleItemPosition >= 0
                             && totalItemCount >= PAGE_LIMIT
-                            && !isLastPage) {
+                            && loadMore) {
                         infoadapter.addLoadingFooter();
                         offset += PAGE_LIMIT;
-                        if (offset >= total) {
-                            isLastPage = true;
+                        if (offset + PAGE_LIMIT >= total) {
+                            loadMore = false;
                             infoadapter.removeLoadingFooter();
+                        } else {
+                            loadMore = true;
                         }
                         getDriverData();
                     }
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     public class connectivityChangeReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Utility.getConnectivityStatusString(MainActivity.this)) {
+            if (InternetCheck.getConnectivityStatusString(MainActivity.this)) {
                 getDriverData();
                 if (isInternetDialogVisible) {
                     internetPermissionDialog.dismiss();
@@ -136,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
 
         tvCancel.setOnClickListener(view ->
         {
-            Log.v("cancel", "called");
             if (isInternetDialogVisible) {
                 internetPermissionDialog.dismiss();
             }

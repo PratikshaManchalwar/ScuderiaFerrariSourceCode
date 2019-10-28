@@ -23,7 +23,7 @@ public class Infoadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private ArrayList<Driver> drivers = new ArrayList<>();
     private final int VIEW_TYPE_ITEM = 0;
-    private boolean isLoadingAdded = false;
+    private boolean isLoadingAdded = true;
     public Infoadapter(Context context) {
         this.context = context;
     }
